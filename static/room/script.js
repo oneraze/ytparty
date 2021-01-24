@@ -45,7 +45,7 @@ $(document).ready(() => {
     })
 
     socket.on("message", data => {
-        $(".messages").prepend("<div><span><b>" + data.name + "</b>: " + data.message + "</span><div>")
+        $(".messages").prepend("<div><span><b>" + data.name + ":</b> " + data.message + "</span><div>")
         $("input").val("")
     })
 })
