@@ -1,28 +1,21 @@
 const socket = io();
 
 $(document).ready(() => {
-    const params = new URL(location).searchParams;
-
-    if (params.get("id")) {
-        socket.emit("videoRequest", {
-            room: params.get("id")
-        })
-    }
+    // get room id
+    let uuid = new URL(location).searchParams.get("id");
 
     $("form").submit((e) => {
         e.preventDefault();
-        socket.emit("joinroom", {
-            name: $("form #name").val(),
-            ytvideo: $("form #ytvideo").val(),
-            id: params.get("id")
-        })
+
+        sessionStorage.setItem("name", $("form #name").val());
+
+        location.href = "/room?id=" + uuid;
     })
 
-    socket.on("roomInfo", data => {
-        $("#ytvideo").val(data.video)
-    })
+    socket.emit("videoRequest", uuid);
 
-    socket.on("joining", data => {
-        location.href = "/room?id=" + data;
+    socket.on("video", data => {
+        $("form #ytvideo").val(data);
+        sessionStorage.setItem("ytvideo", data);
     })
 })

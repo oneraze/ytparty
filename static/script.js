@@ -3,16 +3,20 @@ const socket = io();
 $(document).ready(() => {
     $("form").submit((e) => {
         e.preventDefault();
-        socket.emit("room", $("form").serializeArray())
+        let payload = {
+            name: $("form #name").val(),
+            ytvideo: $("form #ytvideo").val()
+        }
+
+        socket.emit("watcher", payload)
     })
 
-    socket.on("viewer", data => {
-        let roomID;
-        data.forEach(chunk => {
-            if (chunk.name=="uuid") {
-                roomID=chunk.value;
-            }
-        })
-        location.href= "/room?id=" + roomID;
+    socket.on("uuid", data => {
+        // store name and video in the session
+        sessionStorage.setItem("name", data.name);
+        sessionStorage.setItem("ytvideo", data.ytvideo);
+
+        // redirect to the room
+        location.href = `/room?id=${data.uuid}`;
     })
 })

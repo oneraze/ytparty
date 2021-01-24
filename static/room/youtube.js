@@ -6,14 +6,29 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var player;
 
-const params = new URL(location).searchParams;
-let id = params.get("id");
+// uuid
+let uuid = new URL(location).searchParams.get("id");
 
+// parse youtube video function
+function youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}
+
+// get video ID from the function
+let videoId;
+
+if (sessionStorage.getItem("ytvideo")) {
+    videoId = youtube_parser(sessionStorage.getItem("ytvideo"));
+}
+
+// set up youtube video
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '390',
         width: '640',
-        videoId: sessionStorage.getItem("videoId"),
+        videoId: videoId,
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -22,35 +37,42 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    event.target.playVideo();
+    // event.target.playVideo();
+    console.log(event);
+}
+
+function sync() {
     let elapsedTime = player.getCurrentTime();
     socket.emit("sync", {
         et: elapsedTime,
-        id: id
+        id: uuid
     })
+    console.log("blo")
 }
-
-var done = false;
 
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
-        socket.emit("play", id);
+        socket.emit("play", uuid);
     } else if (event.data == YT.PlayerState.PAUSED) {
-        socket.emit("pause", id);
+        socket.emit("pause", uuid);
+        sync();
     }
 }
 
-socket.on("play", (data) => {
+socket.on("play", () => {
+    console.log("blooooo")
     player.playVideo();
-    $(".messages").prepend("<div><span>Video playing</span><div>")
+    $(".messages").prepend("<div><span>Video playing</span><div>");
 })
 
 socket.on("pause", () => {
+    console.log("bloooooo")
     player.pauseVideo();
     $(".messages").prepend("<div><span>Video was paused</span><div>")
 })
 
 socket.on("sync", (data) => {
     console.log(data)
-    player.seekTo(data, true)
+    player.seekTo(data)
+    player.pauseVideo();
 })

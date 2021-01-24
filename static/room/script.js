@@ -1,51 +1,38 @@
 const socket = io();
 
 $(document).ready(() => {
-    const params = new URL(location).searchParams;
+    // get room id
+    let uuid = new URL(location).searchParams.get("id");
 
-    if (params.get("id")) {
-        socket.emit("videoRequest", {
-            room: params.get("id")
-        })
+    // add join link
+    $(".invitelink").html("http://localhost:3000/join?id=" + uuid);
 
-        socket.emit("joinedroom", params.get("id"))
-
-        $(".invitelink").html("http://localhost:3000/join?id=" + params.get("id"));
+    let payload = {
+        name: sessionStorage.getItem("name"),
+        uuid: uuid
     }
 
-    function getId(url) {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url.match(regExp);
-    
-        return (match && match[2].length === 11)
-          ? match[2]
-          : null;
-    }
+    socket.emit("joined", payload);
 
-    socket.on("roomInfo", data => {
-        // console.log(data)
-        sessionStorage.setItem("videoId", getId(data.video));
-        sessionStorage.setItem("name", data.name)
-        console.log(JSON.stringify(data));
-    })
-
-    socket.on("name", data => {
-        $(".messages").prepend("<div><span>" + data + " Joined the room</span><div>")
+    socket.on("new user", data => {
+        $(".messages").prepend("<span>" + data + "</span>");
     })
 
     $("form").submit((e) => {
         e.preventDefault();
-        let message = $("form #message").val();
 
-        socket.emit("message", {
+        let payload = {
             name: sessionStorage.getItem("name"),
-            room: params.get("id"),
-            message: message
-        })
+            message: $("form #message").val(),
+            uuid: uuid
+        }
+
+        $("form #message").val("");
+
+        socket.emit("message", payload);
     })
 
     socket.on("message", data => {
-        $(".messages").prepend("<div><span><b>" + data.name + ":</b> " + data.message + "</span><div>")
-        $("input").val("")
+        $(".messages").append("<div class=\"message\"><b>" + data.name + ": </b><span>" + data.message + "</span></div>");
     })
 })
