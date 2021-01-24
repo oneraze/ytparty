@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Jost', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("/join_bg.png");
+    background-position: fixed;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    margin: 20px;
+}
+
+.red {
+    color: red
+}
+
+.footnote {
+    text-align: center;
+}
+
+input, button {
+    display: block;
+    padding: 7px;
+    margin: 3px;
+    width: 20em;
+    border: 3px solid grey;
+}
+
+input:read-only {
+    background-color: gray;
+    color: white;
+}
+
+button {
+    border: 2px solid rgba(255, 0, 4, 0.815);
+    background-color: transparent;
+    outline: none;
+    color: red
+}
+
+button:hover {
+    background: linear-gradient(to right, red, rgba(255, 84, 87, 0.815));
+    color: white;
+}

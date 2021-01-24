@@ -1,0 +1,25 @@
+{
+  "name": "ytparty",
+  "version": "1.0.0",
+  "description": "A youtube party using iframe api and socketio",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oneraze/ytparty.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oneraze/ytparty/issues"
+  },
+  "homepage": "https://github.com/oneraze/ytparty#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.1.0",
+    "uuid": "^8.3.2"
+  }
+}

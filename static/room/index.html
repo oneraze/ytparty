@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT Party</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/room/script.js"></script>
+    <script src="/room/youtube.js" defer></script>
+    <link rel="stylesheet" href="/room/style.css">
+</head>
+<body>
+    <div class="grid-container">
+        <div class="video">
+            <div id="player"></div>
+        </div>
+        <div class="chat">
+            <div class="invitelink"></div>
+            <div class="messages">
+            </div>
+            <div class="input">
+                <form>
+                    <input type="text" id="message">
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
