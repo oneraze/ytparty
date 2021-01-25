@@ -5,7 +5,13 @@ $(document).ready(() => {
     let uuid = new URL(location).searchParams.get("id");
 
     // add join link
-    $(".invitelink").html("http://localhost:3000/join?id=" + uuid);
+    $("#invitelink").click(() => {
+        navigator.clipboard.writeText("http://localhost:3000/join?id=" + uuid).then(() => {
+            $("#invitelink").val("Copied!")
+        }, () => {
+            console.log("Error")
+        })
+    });
 
     let payload = {
         name: sessionStorage.getItem("name"),

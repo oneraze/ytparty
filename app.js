@@ -14,7 +14,7 @@ io.on("connection", socket => {
     // register a new viewer
     socket.on("watcher", data => {
         var uuidi = uuid()
-        
+
         let payload = {
             uuid: uuidi,
             name: data.name,
@@ -31,7 +31,7 @@ io.on("connection", socket => {
     socket.on("joined", data => {
         // join room
         socket.join(data.uuid);
-        io.to(data.uuid).emit("new user", data.name + " joined the room.");
+        io.to(data.uuid).emit("new user", data.name + " joined the party!");
     })
 
     socket.on("message", data => {

@@ -82,7 +82,15 @@ iframe {
     height: 100%;
     width: 100%;
 }
-.invitelink {
+
+#invitelink {
     background-color: rgba(255, 84, 87, 0.815);
     color: white;
+    border: 0;
+    outline: 0;
+    width: 100%;
+}
+
+#invitelink:active {
+    background-color: rgba(252, 55, 58, 0.815);
 }
