@@ -15,7 +15,7 @@ $(document).ready(() => {
     socket.emit("joined", payload);
 
     socket.on("new user", data => {
-        $(".messages").prepend("<span>" + data + "</span>");
+        $(".messages").append("<span>" + data + "</span>");
     })
 
     $("form").submit((e) => {

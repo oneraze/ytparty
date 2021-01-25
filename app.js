@@ -1,5 +1,4 @@
 const { v4: uuid } = require('uuid');
-const uuidi = uuid()
 var express = require('express');
 var app = require('express')();
 var server = require('http').createServer(app);
@@ -14,6 +13,8 @@ let videoMap = new Map();
 io.on("connection", socket => {
     // register a new viewer
     socket.on("watcher", data => {
+        var uuidi = uuid()
+        
         let payload = {
             uuid: uuidi,
             name: data.name,

@@ -62,13 +62,12 @@ function onPlayerStateChange(event) {
 socket.on("play", () => {
     console.log("blooooo")
     player.playVideo();
-    $(".messages").prepend("<div><span>Video playing</span><div>");
 })
 
 socket.on("pause", () => {
     console.log("bloooooo")
     player.pauseVideo();
-    $(".messages").prepend("<div><span>Video was paused</span><div>")
+    sync();
 })
 
 socket.on("sync", (data) => {
